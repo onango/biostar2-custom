@@ -5,7 +5,7 @@
  * @param {string} loginId - The login ID for authentication.
  * @param {string} password - The password for authentication.
  * @param {string} AccessGroupName - The name of the access group to update.
- * @param {number} action - The action type (1 for add users, 2 for modify users, other for no action).
+ * @param {number} action - The action type (1 for add users, 2 for remove users from access, other for no action).
  * @param {Array<number>} users - An array of user IDs to be added or modified.
  * @param {string} [baseUrl="https://127.0.0.1"] - The base URL for API requests.
  */
@@ -50,8 +50,11 @@ async function updateUserAccessGroup(
       },
     };
 
-    if (action === 1 || action === 2) {
+    if (action === 1) {
       payload.AccessGroup.new_users = formattedUsers;
+    }
+    else if(action === 2) {
+      payload.AccessGroup.delete_users = formattedUsers;
     }
 
     const updateHeaders = new Headers();
